@@ -6,6 +6,7 @@
 !/.config/fish
 !.gitignore
 !/.config/nvim/*
+!/.config/nvim/lua/**
 !/.config/fish/config.fish
 !/.config/fish/fish_plugins
 !.tmux.conf
