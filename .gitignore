@@ -1,0 +1,12 @@
+*
+
+!/.config/
+!/.config/nvim/
+!/.config/alacritty/
+!/.config/fish
+!.gitignore
+!/.config/nvim/*
+!/.config/fish/config.fish
+!/.config/fish/fish_plugins
+!.tmux.conf
+!/.config/alacritty/*

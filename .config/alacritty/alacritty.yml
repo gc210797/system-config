@@ -1,0 +1,4 @@
+window:
+        decorations: none
+shell:
+        program: /bin/fish
