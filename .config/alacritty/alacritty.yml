@@ -1,4 +1,6 @@
 window:
         decorations: none
+        startup_mode: Maximized
+        dynamic_padding: true
 shell:
         program: /bin/fish

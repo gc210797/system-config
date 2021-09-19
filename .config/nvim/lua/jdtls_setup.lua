@@ -6,37 +6,19 @@ function M.setup()
 		require('lsp-status').register_progress()
 		require('jdtls').setup_dap({ hotcodereplace = 'auto' })
 
-		local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(buffer, 'n', ...) end
-		local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+		local opts = {noremap = true, silent = false}
+		local commons = require("commons")
 
-		buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+		commons.common_bindings(buffer, opts)
 
-		local opts = {noremap = true, silent = true}
 
-		buf_set_keymap('[g', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-		buf_set_keymap(']g', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-		buf_set_keymap('gd', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-		buf_set_keymap('gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-
-		buf_set_keymap('gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-		
-		buf_set_keymap('gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-		
-		buf_set_keymap('<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-
-		buf_set_keymap('K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-		buf_set_keymap('rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-		buf_set_keymap('ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-
-		buf_set_keymap('<leader>di', "<cmd>lua require('jdtls').organize_imports()<CR>", opts)
-		buf_set_keymap('<leader>dt', "<cmd>lua require('jdtls').test_class()<CR>", opts)
-		buf_set_keymap('<leader>dn', "<cmd>lua require('jdtls').test_nearest_method()<CR>", opts)
-		buf_set_keymap('<leader>de', "<cmd>lua require('jdtls').extract_variable()<CR>", opts)
-		buf_set_keymap('<leader>df', "<cmd>lua require('jdtls').test_class()<CR>", opts)
-		buf_set_keymap('<leader>dn', "<cmd>lua require('jdtls').test_nearest_method()<CR>", opts)
-
-		buf_set_keymap('<C-f>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>", opts)
-		buf_set_keymap('<C-b>', "<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>", opts)
+		commons.buf_set_keymap(buffer, "ga", "<cmd>lua require('jdtls').code_action()<CR>", opts)
+		commons.buf_set_keymap(buffer, '<leader>di', "<cmd>lua require('jdtls').organize_imports()<CR>", opts)
+		commons.buf_set_keymap(buffer, '<leader>dt', "<cmd>lua require('jdtls').test_class()<CR>", opts)
+		commons.buf_set_keymap(buffer, '<leader>dn', "<cmd>lua require('jdtls').test_nearest_method()<CR>", opts)
+		commons.buf_set_keymap(buffer, '<leader>de', "<cmd>lua require('jdtls').extract_variable()<CR>", opts)
+		commons.buf_set_keymap(buffer, '<leader>df', "<cmd>lua require('jdtls').test_class()<CR>", opts)
+		commons.buf_set_keymap(buffer, '<leader>dn', "<cmd>lua require('jdtls').test_nearest_method()<CR>", opts)
 
 		require('formatter').setup {
 			filetype = {
@@ -44,7 +26,7 @@ function M.setup()
 					function()
 						return {
 							exe = 'java',
-							args = {'-jar', os.getenv('HOME') .. '/jdtls/google-java-format.jar', vim.api.nvim_buf_get_name(0)},
+							args = {'-jar', os.getenv('HOME') .. '/lsp/jdtls/google-java-format.jar', vim.api.nvim_buf_get_name(0)},
 							stdin = true
 						}
 					end
@@ -87,7 +69,7 @@ function M.setup()
 		}
 	}
 
-	local workspace_folder = home .. '/workspace/' .. vim.fn.fnamemodify('root_dir', ':p:h:t')
+	local workspace_folder = home .. '/.workspace/' .. vim.fn.fnamemodify(root_dir, ':p:h:t')
 	local config = {
 		flags = {
 			allow_incremental_sync = true
@@ -96,7 +78,7 @@ function M.setup()
 	}
 
 	config.settings = {
-		['java.format.settings.url'] = home .. '/jdtls/java-google-formatter.xml',
+		['java.format.settings.url'] = home .. '/lsp/jdtls/java-google-formatter.xml',
 		['java.format.settings.profile'] = 'GoogleStyle',
 		java = {
 			signatureHelp = {enable = true},
@@ -131,21 +113,17 @@ function M.setup()
 		}
 	}
 
-	config.cmd = {home .. '/jdtls/jdtls.sh', workspace_folder}
+	config.cmd = {home .. '/lsp/jdtls/jdtls.sh', workspace_folder}
 	config.on_attach = on_attach
 	config.on_init = function(client, _)
 		client.notify('workspace/didChangeConfiguration', {settings = config.settings})
 	end
 
-	-- local bundles = {
-	-- 	vim.fn.glob(home .. "/jdtls/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar")
-	-- }
-	
-	bundles = {}
+	local bundles = {}
 
 	local jar_patterns = {
-		"/jdtls/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
-		"/jdtls/vscode-java-test/server/*.jar"
+		"/lsp/jdtls/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
+		"/lsp/jdtls/vscode-java-test/server/*.jar"
 	}
 
 	for _, jar_pattern in ipairs(jar_patterns) do
@@ -185,8 +163,8 @@ function M.setup()
 			},
 			sorter = sorters.get_generic_fuzzy_sorter(),
 			attach_mappings = function(prompt_bufnr)
-				actions.goto_file_selection_edit:replace(function()
-					local selection = actions.get_selected_entry(prompt_bufnr)
+				actions.select_default:replace(function()
+					local selection = actions.get_selected_entry()
 					actions.close(prompt_bufnr)
 
 					cb(selection.value)
