@@ -49,6 +49,7 @@ require("lspsaga").init_lsp_saga()
 require("dapui").setup()
 require("rust_setup").setup()
 require("lua_setup").setup()
+require("ts").setup()
 require("lualine").setup{
 	options = {theme = 'gruvbox'},
 	sections = {lualine_c = {"os.data('%a')", 'data', require'lsp-status'.status_progress}}
