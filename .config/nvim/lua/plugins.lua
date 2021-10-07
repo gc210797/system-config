@@ -1,6 +1,6 @@
 return require('packer').startup(function()
 	use 'wbthomason/packer.nvim'
-	use 'morhetz/gruvbox'
+	use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
 	use 'cespare/vim-toml'
 	use 'stephpy/vim-yaml'
 	use 'rust-lang/rust.vim'
@@ -15,7 +15,6 @@ return require('packer').startup(function()
 	use 'neovim/nvim-lspconfig'
 	use 'mfussenegger/nvim-dap'
 	use 'nvim-lua/lsp_extensions.nvim'
-	use 'nvim-lua/completion-nvim'
 	use 'mfussenegger/nvim-jdtls'
 	use 'nvim-lua/lsp-status.nvim'
 	use 'mhartington/formatter.nvim'
@@ -28,4 +27,10 @@ return require('packer').startup(function()
 
 	use "onsails/lspkind-nvim"
 	use "glepnir/lspsaga.nvim"
+	use "hrsh7th/nvim-cmp"
+	use "L3MON4D3/LuaSnip"
+	use "saadparwaiz1/cmp_luasnip"
+	use "hrsh7th/cmp-path"
+	use "hrsh7th/cmp-buffer"
+	use "hrsh7th/cmp-nvim-lsp"
 end)

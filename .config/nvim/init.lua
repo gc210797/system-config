@@ -19,6 +19,7 @@ set ignorecase
 set smartcase
 set gdefault
 set number relativenumber
+colorscheme gruvbox
 augroup jdtls_lsp
 	autocmd!
 	autocmd FileType java lua require('jdtls_setup').setup()
@@ -28,6 +29,9 @@ augroup end
 vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
 vim.opt.shortmess = vim.opt.shortmess + "c"
 vim.opt.updatetime = 300
+vim.opt.mouse = "a"
+vim.opt.signcolumn = "yes"
+vim.opt.termguicolors = true
 
 vim.g["fzf_layout"] = {down = '~20%'}
 
@@ -47,6 +51,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 require("lspkind").init()
 require("lspsaga").init_lsp_saga()
 require("dapui").setup()
+require("cmp_setup").setup()
 require("rust_setup").setup()
 require("lua_setup").setup()
 require("ts").setup()

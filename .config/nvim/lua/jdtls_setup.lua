@@ -49,25 +49,27 @@ function M.setup()
 			augroup end
 		]], false)
 
-		require('completion').on_attach(client)
 	end
 
 	local root_markers = {'pom.xml', 'gradle.build'}
 	local root_dir = require('jdtls.setup').find_root(root_markers)
 	local home = os.getenv('HOME')
 
-	local capabilities = {
-		workspace = {
-			configuration = true
-		},
-		textDocument = {
-			completion = {
-				completionItem = {
-					snippetSupport = true
-				}
-			}
-		}
-	}
+	--local capabilities = {
+	--	workspace = {
+	--		configuration = true
+	--	},
+	--	textDocument = {
+	--		completion = {
+	--			completionItem = {
+	--				snippetSupport = true
+	--			}
+	--		}
+	--	}
+	--}
+
+	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+	capabilities = vim.tbl_extend('keep', capabilities, require("lsp-status").capabilities)
 
 	local workspace_folder = home .. '/.workspace/' .. vim.fn.fnamemodify(root_dir, ':p:h:t')
 	local config = {
