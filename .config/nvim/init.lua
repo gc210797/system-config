@@ -49,7 +49,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 })
 
 require("lspkind").init()
-require("lspsaga").init_lsp_saga()
 require("dapui").setup()
 require("cmp_setup").setup()
 require("rust_setup").setup()

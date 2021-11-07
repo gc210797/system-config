@@ -5,7 +5,6 @@ function M.setup()
 		require("lsp-status").register_progress()
 		require("lsp-status").on_attach(client)
 	 	require("commons").common_bindings(bufnr, {noremap = true, silent = false})
-		require('completion').on_attach(client)
 	end
 
 	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
