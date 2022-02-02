@@ -49,10 +49,10 @@ function M.setup()
 		sources = {
 			{name = 'nvim_lsp'},
 			{name = 'luasnip'},
-			{name = 'buffer'}
+			{name = 'buffer'},
+			{name = 'crates'}
 		}
 	})
-
 end
 
 return M

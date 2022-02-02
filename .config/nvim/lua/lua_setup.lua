@@ -13,7 +13,7 @@ function M.setup()
 
 
 	local sumneko_path = vim.env.HOME .. "/lsp/lua-language-server"
-	local sumneko_binary = sumneko_path .. "/bin/Linux/lua-language-server"
+	local sumneko_binary = sumneko_path .. "/bin/lua-language-server"
 	local runtime_path = vim.split(package.path, ';')
 	table.insert(runtime_path, "lua/?.lua")
 	table.insert(runtime_path, "lua/?/init.lua")

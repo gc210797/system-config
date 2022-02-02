@@ -14,7 +14,6 @@ return require('packer').startup(function()
 	}
 	use 'neovim/nvim-lspconfig'
 	use 'mfussenegger/nvim-dap'
-	use 'nvim-lua/lsp_extensions.nvim'
 	use 'mfussenegger/nvim-jdtls'
 	use 'nvim-lua/lsp-status.nvim'
 	use 'mhartington/formatter.nvim'
@@ -32,4 +31,8 @@ return require('packer').startup(function()
 	use "hrsh7th/cmp-path"
 	use "hrsh7th/cmp-buffer"
 	use "hrsh7th/cmp-nvim-lsp"
+	use {
+		'saecki/crates.nvim',
+		requires = { 'nvim-lua/plenary.nvim' },
+	}
 end)
