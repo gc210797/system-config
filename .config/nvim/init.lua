@@ -8,6 +8,8 @@ require('plugins')
 
 vim.opt.background = 'dark'
 vim.opt.clipboard:append {"unnamedplus"}
+vim.g.gruvbox_flat_style = "hard"
+vim.g.nvim_tree_group_empty = 1
 vim.cmd([[
 syntax on
 filetype plugin indent on
@@ -19,7 +21,7 @@ set ignorecase
 set smartcase
 set gdefault
 set number relativenumber
-colorscheme gruvbox
+colorscheme gruvbox-flat
 augroup jdtls_lsp
 	autocmd!
 	autocmd FileType java lua require('jdtls_setup').setup()
@@ -39,7 +41,8 @@ vim.api.nvim_set_keymap('n', '<Leader>s', ':Rg ', {noremap = true})
 vim.api.nvim_set_keymap('n', '<Leader>;', ':Buffers<CR>', {silent = true, noremap = true})
 vim.api.nvim_set_keymap('n', '?', "?\\v", {noremap = true, silent = false})
 vim.api.nvim_set_keymap('n', '/', "/\\v", {noremap = true, silent = false})
-vim.api.nvim_set_keymap('n', '<leader>n', ':NERDTreeToggle<CR>', {noremap = true, silent = true});
+vim.api.nvim_set_keymap('n', '<leader>n', ':NvimTreeToggle<CR>', {noremap = true, silent = true});
+vim.api.nvim_set_keymap('n', '<leader>r', ':NvimTreeRefresh<CR>', {noremap = true, silent = true});
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -56,6 +59,7 @@ require("lua_setup").setup()
 require("ts").setup()
 require("python_setup").setup()
 require("lualine").setup{
-	options = {theme = 'gruvbox'},
+	options = {theme = 'gruvbox-flat'},
 	sections = {lualine_c = {"os.data('%a')", 'data', require'lsp-status'.status_progress}}
 }
+require("treesitter").setup()

@@ -1,16 +1,19 @@
 return require('packer').startup(function()
 	use 'wbthomason/packer.nvim'
-	use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+	use 'eddyekofo94/gruvbox-flat.nvim'
 	use 'cespare/vim-toml'
 	use 'stephpy/vim-yaml'
 	use 'rust-lang/rust.vim'
 	use 'airblade/vim-rooter'
 	use {'junegunn/fzf', run = function() vim.fn['fzf#install']() end}
 	use 'junegunn/fzf.vim'
-	use 'preservim/nerdtree'
 	use {
 		'hoob3rt/lualine.nvim',
 		requires = {'kyazdani42/nvim-web-devicons', opt = true}
+	}
+	use {
+		'kyazdani42/nvim-tree.lua',
+		config = function() require('nvim-tree').setup{} end
 	}
 	use 'neovim/nvim-lspconfig'
 	use 'mfussenegger/nvim-dap'
@@ -34,5 +37,9 @@ return require('packer').startup(function()
 	use {
 		'saecki/crates.nvim',
 		requires = { 'nvim-lua/plenary.nvim' },
+	}
+	use {
+		'nvim-treesitter/nvim-treesitter',
+		run = ':TSUpdate'
 	}
 end)

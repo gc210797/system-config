@@ -1,5 +1,21 @@
 local M = {}
 
+local library = {}
+
+local function add_to_lib(lib)
+	for _, p in pairs(vim.fn.expand(lib, false, true)) do
+		p = vim.loop.fs_realpath(p)
+		if p ~= nil then
+			library[p] = true
+		end
+	end
+end
+
+add_to_lib("$VIMRUNTIME")
+add_to_lib(vim.fn.stdpath("config"))
+add_to_lib("~/.local/share/nvim/site/pack/packer/start/*")
+add_to_lib("~/.local/share/nvim/site/pack/packer/opt/*")
+
 function M.setup()
 	local on_attach = function(client, bufnr)
 		require("lsp-status").register_progress()
@@ -24,9 +40,6 @@ function M.setup()
 	require("lspconfig").sumneko_lua.setup {
 		cmd = {sumneko_binary, "-E", sumneko_path .. "/main.lua"},
 		on_attach = on_attach,
-		root_dir = function()
-			return os.getenv("HOME") .. "/.config/nvim/"
-		end,
 		settings = {
 			Lua = {
 				runtime = {
@@ -37,10 +50,10 @@ function M.setup()
 					globals = {'vim'}
 				},
 				workspace = {
-					library = vim.api.nvim_get_runtime_file("", true)
+					library = library
 				},
 				telemetry = {
-					emable = false
+					enable = false
 				}
 			}
 		},

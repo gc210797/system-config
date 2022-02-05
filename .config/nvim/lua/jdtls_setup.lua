@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-	local on_attach = function(client, buffer)
+	local on_attach = function(_, buffer)
 		require('jdtls.setup').add_commands()
 		require('lsp-status').register_progress()
 		require('jdtls').setup_dap({ hotcodereplace = 'auto' })
@@ -20,24 +20,24 @@ function M.setup()
 		commons.buf_set_keymap(buffer, '<leader>df', "<cmd>lua require('jdtls').test_class()<CR>", opts)
 		commons.buf_set_keymap(buffer, '<leader>dn', "<cmd>lua require('jdtls').test_nearest_method()<CR>", opts)
 
-		require('formatter').setup {
-			filetype = {
-				java = {
-					function()
-						return {
-							exe = 'java',
-							args = {'-jar', os.getenv('HOME') .. '/lsp/jdtls/google-java-format.jar', vim.api.nvim_buf_get_name(0)},
-							stdin = true
-						}
-					end
-				}
-			}
-		}
+		--require('formatter').setup {
+		--	filetype = {
+		--		java = {
+		--			function()
+		--				return {
+		--					exe = 'java',
+		--					args = {'-jar', os.getenv('HOME') .. '/lsp/formatter/google-java-format-1.13.0-all-deps.jar', vim.api.nvim_buf_get_name(0)},
+		--					stdin = true
+		--				}
+		--			end
+		--		}
+		--	}
+		--}
 
 		vim.api.nvim_exec([[
 			augroup FormatJavaAuGroup
 				autocmd!
-				autocmd BufWritePost *.java FormatWrite
+				autocmd BufWritePost *.java lua vim.lsp.buf.formatting()
 			augroup end
 			hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
 			hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
@@ -80,8 +80,6 @@ function M.setup()
 	}
 
 	config.settings = {
-		['java.format.settings.url'] = home .. '/lsp/jdtls/java-google-formatter.xml',
-		['java.format.settings.profile'] = 'GoogleStyle',
 		java = {
 			signatureHelp = {enable = true},
 			contentProvider = {preferred = 'fernflower'},
@@ -91,6 +89,11 @@ function M.setup()
 					"java.util.Objects.requireNonNull",
 					"java.util.Objects.requireNonNullElse",
 					"org.mockito.Mockito.*"
+				}
+			},
+			format = {
+				settings = {
+					url = home .. "/lsp/formatter/eclipse-formatter.xml"
 				}
 			}
 		},
@@ -115,7 +118,21 @@ function M.setup()
 		}
 	}
 
-	config.cmd = {home .. '/lsp/jdtls/jdtls.sh', workspace_folder}
+	config.cmd = {
+		'java',
+		'-Declipse.application=org.eclipse.jdt.ls.core.id1',
+		'-Dosgi.bundles.defaultStartLevel=4',
+		'-Declipse.product=org.eclipse.jdt.ls.core.product',
+		'-Dlog.protocol=true',
+		'-Dlog.level=ALL',
+		'-Xms1g',
+		'--add-modules=ALL-SYSTEM',
+		'--add-opens', 'java.base/java.util=ALL-UNNAMED',
+		'--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+		'-jar', home .. '/lsp/jdt-language-server-latest/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+		'-configuration', home .. '/lsp/jdt-language-server-latest/config_linux/',
+		'-data', workspace_folder
+	}
 	config.on_attach = on_attach
 	config.on_init = function(client, _)
 		client.notify('workspace/didChangeConfiguration', {settings = config.settings})
@@ -124,15 +141,13 @@ function M.setup()
 	local bundles = {}
 
 	local jar_patterns = {
-		"/lsp/jdtls/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
-		"/lsp/jdtls/vscode-java-test/server/*.jar"
+		"/dap/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
+		"/dap/vscjava.vscode-java-test-0.34.0/extension/server/*.jar"
 	}
 
 	for _, jar_pattern in ipairs(jar_patterns) do
 		for _, bundle in ipairs(vim.split(vim.fn.glob(home .. jar_pattern), '\n')) do
-			if not vim.endswith(bundle, "com.microsoft.java.test.runner.jar") then
-				table.insert(bundles, bundle)
-			end
+			table.insert(bundles, bundle)
 		end
 	end
 
