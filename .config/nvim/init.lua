@@ -1,7 +1,7 @@
-vim.cmd([[
-set shell=/bin/bash
-]]
-)
+--vim.cmd([[
+--set shell=/bin/bash
+--]]
+--)
 vim.g.mapleader = ' '
 
 require('plugins')
@@ -35,7 +35,7 @@ vim.opt.mouse = "a"
 vim.opt.signcolumn = "yes"
 vim.opt.termguicolors = true
 
-vim.g["fzf_layout"] = {down = '~20%'}
+--vim.g["fzf_layout"] = {down = '~20%'}
 
 vim.api.nvim_set_keymap('n', '<Leader>s', ':Rg ', {noremap = true})
 vim.api.nvim_set_keymap('n', '<Leader>;', ':Buffers<CR>', {silent = true, noremap = true})

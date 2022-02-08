@@ -20,10 +20,7 @@ return require('packer').startup(function()
 	use 'mfussenegger/nvim-jdtls'
 	use 'nvim-lua/lsp-status.nvim'
 	use 'mhartington/formatter.nvim'
-	use {
-  		'nvim-telescope/telescope.nvim',
-  		requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
-	}
+	use 'nvim-lua/plenary.nvim'
 
 	use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
 
@@ -42,4 +39,6 @@ return require('packer').startup(function()
 		'nvim-treesitter/nvim-treesitter',
 		run = ':TSUpdate'
 	}
+	
+	use 'stevearc/dressing.nvim'
 end)

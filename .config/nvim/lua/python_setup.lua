@@ -12,24 +12,18 @@ function M.setup()
 	capabilities = vim.tbl_extend('keep', capabilities, require("lsp-status").capabilities)
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-	require("lspconfig").pylsp.setup{
+	require("lspconfig").pyright.setup{
 		on_attach = on_attach,
 		capabilities = capabilities,
 		settings = {
-			pylsp = {
-				plugins = {
-					pylint = {enabled = true, executable = "pylint"},
-					jedi_completion = {fuzzy = true},
-					pyls_isort = {enabled = true},
-					pylsp_mypy = {enabled = true},
-					pyflakes = {enabled = false},
-					pycodestyle = {enabled = false}
+			python = {
+				analysis = {
+					typeCheckingMode = "strict",
+					diagnosticMode = "workspace"
 				}
 			}
-		},
-		flags = {
-			debounce_text_changes = 200
 		}
+
 	}
 end
 
