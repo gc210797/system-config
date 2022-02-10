@@ -45,4 +45,5 @@ return require('packer').startup(function()
 	use 'jose-elias-alvarez/null-ls.nvim'
 
 	use 'mfussenegger/nvim-dap-python'
+	use 'theHamsta/nvim-dap-virtual-text'
 end)

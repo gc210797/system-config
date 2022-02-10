@@ -13,11 +13,9 @@ function M.setup()
 
 
 		commons.buf_set_keymap(buffer, '<leader>di', "<cmd>lua require('jdtls').organize_imports()<CR>", opts)
-		commons.buf_set_keymap(buffer, '<leader>dt', "<cmd>lua require('jdtls').test_class()<CR>", opts)
-		commons.buf_set_keymap(buffer, '<leader>dn', "<cmd>lua require('jdtls').test_nearest_method()<CR>", opts)
+		commons.buf_set_keymap(buffer, '<leader>dc', "<cmd>lua require('jdtls').test_class()<CR>", opts)
+		commons.buf_set_keymap(buffer, '<leader>dm', "<cmd>lua require('jdtls').test_nearest_method()<CR>", opts)
 		commons.buf_set_keymap(buffer, '<leader>de', "<cmd>lua require('jdtls').extract_variable()<CR>", opts)
-		commons.buf_set_keymap(buffer, '<leader>df', "<cmd>lua require('jdtls').test_class()<CR>", opts)
-		commons.buf_set_keymap(buffer, '<leader>dn', "<cmd>lua require('jdtls').test_nearest_method()<CR>", opts)
 
 		vim.api.nvim_exec([[
 			augroup FormatJavaAuGroup

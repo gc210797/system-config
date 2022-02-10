@@ -3,10 +3,13 @@ local M = {}
 function M.setup()
 	local on_attach = function(client, bufnr)
 		local opts = {noremap = true, silent = false}
+		local commons = require("commons")
 		require("lsp-status").register_progress()
 		require("lsp-status").on_attach(client)
-	 	require("commons").common_bindings(bufnr, opts)
-		require("commons").buf_set_keymap(bufnr, "<leader>di", "<cmd>PyrightOrganizeImports<CR>", opts)
+	 	commons.common_bindings(bufnr, opts)
+		commons.buf_set_keymap(bufnr, "<leader>di", "<cmd>PyrightOrganizeImports<CR>", opts)
+		commons.buf_set_keymap(bufnr, "<leader>dm", "<cmd>lua require('dap-python').test_method()<CR>", opts)
+		commons.buf_set_keymap(bufnr, "<leader>dc", "<cmd>lua require('dap-python').test_class()<CR>", opts)
 
 		vim.cmd([[
 			augroup auto_format
