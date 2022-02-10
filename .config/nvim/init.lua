@@ -21,6 +21,7 @@ set ignorecase
 set smartcase
 set gdefault
 set number relativenumber
+set autochdir
 colorscheme gruvbox-flat
 augroup jdtls_lsp
 	autocmd!
@@ -51,8 +52,11 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = true,
 })
 
+local dap, dapui = require("dap"), require("dapui")
+
+
 require("lspkind").init()
-require("dapui").setup()
+dapui.setup()
 require("cmp_setup").setup()
 require("rust_setup").setup()
 require("lua_setup").setup()
@@ -63,3 +67,16 @@ require("lualine").setup{
 	sections = {lualine_c = {"os.data('%a')", 'data', require'lsp-status'.status_progress}}
 }
 require("treesitter").setup()
+
+dap.listeners.after.event_initialized["dapui_config"] = function()
+	dapui.open()
+end
+
+dap.listeners.after.event_terminated["dapui_config"] = function()
+	dapui.close()
+end
+
+dap.listeners.after.event_exited["dapui_config"] = function()
+	dapui.close()
+end
+

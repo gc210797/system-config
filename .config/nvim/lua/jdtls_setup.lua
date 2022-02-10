@@ -23,6 +23,8 @@ function M.setup()
 			augroup FormatJavaAuGroup
 				autocmd!
 				autocmd BufWritePost *.java lua vim.lsp.buf.formatting()
+				autocmd BufWritePost *.java lua require('jdtls.dap').setup_dap_main_class_configs()
+				autocmd BufWritePost *.java JdtUpdateConfig
 			augroup end
 			hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
 			hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow

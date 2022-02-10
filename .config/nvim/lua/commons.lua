@@ -32,4 +32,10 @@ function M.lsp_request(bufnr, method, params, handler)
 	return vim.lsp.buf_request(bufnr, method, params, handler)
 end
 
+function M.scheduled_error(err)
+	vim.schedule(function()
+		vim.notify(err, vim.log.level.ERROR)
+	end)
+end
+
 return M

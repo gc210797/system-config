@@ -1,11 +1,21 @@
 local M = {}
 
 function M.setup()
-	require('lspconfig').pylsp.setup{}
 	local on_attach = function(client, bufnr)
+		local opts = {noremap = true, silent = false}
 		require("lsp-status").register_progress()
 		require("lsp-status").on_attach(client)
-	 	require("commons").common_bindings(bufnr, {noremap = true, silent = false})
+	 	require("commons").common_bindings(bufnr, opts)
+		require("commons").buf_set_keymap(bufnr, "<leader>di", "<cmd>PyrightOrganizeImports<CR>", opts)
+
+		vim.cmd([[
+			augroup auto_format
+			autocmd!
+			autocmd BufWritePost *.py lua vim.lsp.buf.formatting_sync()
+			augroup end
+		]])
+		require('dap-python').setup("~/dap/debugpy/bin/python")
+		require('dap-python').test_runner = 'pytest'
 	end
 
 	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -25,6 +35,17 @@ function M.setup()
 		}
 
 	}
+
+	--null-ls setup for pytlint and autopep8
+	local null_ls = require("null-ls")
+	local sources = {
+		null_ls.builtins.diagnostics.pylint.with({
+			method = null_ls.methods.DIAGNOSTICS_ON_SAVE
+		}),
+		null_ls.builtins.formatting.autopep8
+	}
+
+	null_ls.register(sources)
 end
 
 return M

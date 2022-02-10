@@ -39,6 +39,10 @@ return require('packer').startup(function()
 		'nvim-treesitter/nvim-treesitter',
 		run = ':TSUpdate'
 	}
-	
+
 	use 'stevearc/dressing.nvim'
+
+	use 'jose-elias-alvarez/null-ls.nvim'
+
+	use 'mfussenegger/nvim-dap-python'
 end)
