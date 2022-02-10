@@ -11,3 +11,4 @@
 !/.config/fish/fish_plugins
 !.tmux.conf
 !/.config/alacritty/*
+!README.md
