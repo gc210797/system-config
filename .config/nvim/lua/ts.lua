@@ -11,6 +11,7 @@ function M.setup()
 	capabilities = vim.tbl_extend('keep', capabilities, require("lsp-status").capabilities)
 
 	require("lspconfig").tsserver.setup {
+		cmd = {vim.env.HOME .. "/node_modules/.bin/typescript-language-server", "--stdio"},
 		on_attach = on_attach,
 		capabilities = capabilities,
 		init_options = {
