@@ -10,6 +10,7 @@ vim.opt.background = 'dark'
 vim.opt.clipboard:append {"unnamedplus"}
 vim.g.gruvbox_flat_style = "hard"
 vim.g.nvim_tree_group_empty = 1
+vim.g.nvim_tree_highlight_opened_files = 1
 vim.cmd([[
 syntax on
 filetype plugin indent on
@@ -42,8 +43,10 @@ vim.api.nvim_set_keymap('n', '<Leader>s', ':Rg ', {noremap = true})
 vim.api.nvim_set_keymap('n', '<Leader>;', ':Buffers<CR>', {silent = true, noremap = true})
 vim.api.nvim_set_keymap('n', '?', "?\\v", {noremap = true, silent = false})
 vim.api.nvim_set_keymap('n', '/', "/\\v", {noremap = true, silent = false})
-vim.api.nvim_set_keymap('n', '<leader>n', ':NvimTreeToggle<CR>', {noremap = true, silent = true});
-vim.api.nvim_set_keymap('n', '<leader>r', ':NvimTreeRefresh<CR>', {noremap = true, silent = true});
+vim.api.nvim_set_keymap('n', '<leader>n', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>r', ':NvimTreeRefresh<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>f', ':Files ' .. require('commons').get_current_root(), {noremap = true, silent = false})
+vim.api.nvim_set_keymap('n', '<leader>l', ':Lines ', {noremap = true, silent = false})
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {

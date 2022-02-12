@@ -46,4 +46,28 @@ function M.scheduled_error(err)
 	end)
 end
 
+function M.get_lsp_client()
+	local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+	local clients = vim.lsp.buf_get_clients()
+
+	for _, client in pairs(clients) do
+		local filetypes = client.config.filetypes
+		if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+			return client
+		end
+	end
+
+	return nil
+end
+
+function M.get_current_root()
+	local client = M.get_lsp_client()
+
+	if client == nil then
+		return vim.fn.expand("%:p:h")
+	else
+		return client.config.project_root
+	end
+end
+
 return M
