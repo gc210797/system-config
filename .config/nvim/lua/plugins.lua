@@ -48,4 +48,7 @@ return require('packer').startup(function()
 	use 'theHamsta/nvim-dap-virtual-text'
 	use { 'TimUntersberger/neogit' }
 	use { 'sindrets/diffview.nvim' }
+	use { 'nvim-orgmode/orgmode', config = function()
+		require('orgmode').setup{}
+	end }
 end)

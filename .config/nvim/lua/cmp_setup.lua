@@ -50,7 +50,8 @@ function M.setup()
 			{name = 'nvim_lsp'},
 			{name = 'luasnip'},
 			{name = 'buffer'},
-			{name = 'crates'}
+			{name = 'crates'},
+			{name = 'orgmode'}
 		}
 	})
 end

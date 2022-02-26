@@ -70,6 +70,7 @@ require("lualine").setup{
 	sections = {lualine_c = {"os.data('%a')", 'data', require'lsp-status'.status_progress}}
 }
 require("treesitter").setup()
+require("nvimorg").setup()
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()
