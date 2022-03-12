@@ -12,7 +12,6 @@ vim.g.gruvbox_flat_style = "hard"
 vim.g.nvim_tree_group_empty = 1
 vim.g.nvim_tree_highlight_opened_files = 1
 vim.cmd([[
-syntax on
 filetype plugin indent on
 hi Pmenu ctermbg=black ctermfg=white
 set splitright
@@ -28,6 +27,7 @@ augroup jdtls_lsp
 	autocmd!
 	autocmd FileType java lua require('jdtls_setup').setup()
 augroup end
+
 ]])
 
 vim.opt.completeopt = {'menuone', 'noinsert', 'noselect'}
@@ -36,6 +36,9 @@ vim.opt.updatetime = 300
 vim.opt.mouse = "a"
 vim.opt.signcolumn = "yes"
 vim.opt.termguicolors = true
+vim.opt.foldmethod='expr'
+vim.opt.foldexpr='nvim_treesitter#foldexpr()'
+vim.opt.foldlevel=20
 
 --vim.g["fzf_layout"] = {down = '~20%'}
 
@@ -58,6 +61,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 local dap, dapui = require("dap"), require("dapui")
 
 
+require("treesitter").setup()
 require("lspkind").init()
 dapui.setup()
 require("cmp_setup").setup()
@@ -69,7 +73,6 @@ require("lualine").setup{
 	options = {theme = 'gruvbox-flat'},
 	sections = {lualine_c = {"os.data('%a')", 'data', require'lsp-status'.status_progress}}
 }
-require("treesitter").setup()
 require("nvimorg").setup()
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
