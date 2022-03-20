@@ -12,19 +12,22 @@ function M.common_bindings(bufnr, opts)
 	M.buf_set_keymap(bufnr, '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 	M.buf_set_keymap(bufnr, ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 	M.buf_set_keymap(bufnr, 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-	M.buf_set_keymap(bufnr, 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-	M.buf_set_keymap(bufnr, 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-	M.buf_set_keymap(bufnr, "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+	M.buf_set_keymap(bufnr, 'gd', '<cmd>lua require("telescope.builtin").lsp_definitions()<CR>', opts)
+	M.buf_set_keymap(bufnr, 'gi', '<cmd>lua require("telescope.builtin").lsp_implementations()<CR>', opts)
+	M.buf_set_keymap(bufnr, "gs", '<cmd>lua require("telescope.builtin").lsp_document_symbols()<CR>', opts)
+	M.buf_set_keymap(bufnr, "gS", '<cmd>lua require("telescope.builtin").lsp_dynamic_workspace_symbols()<CR>', opts)
 
-	M.buf_set_keymap(bufnr, 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+	M.buf_set_keymap(bufnr, 'gy', '<cmd>lua require("telescope.builtin").lsp_type_definitions()<CR>', opts)
 
-	M.buf_set_keymap(bufnr, 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+	M.buf_set_keymap(bufnr, 'gr', '<cmd>lua require("telescope.builtin").lsp_references()<CR>', opts)
 
 	M.buf_set_keymap(bufnr, '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 
 	M.buf_set_keymap(bufnr, 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 	M.buf_set_keymap(bufnr, 'rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-	M.buf_set_keymap(bufnr, 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	M.buf_set_keymap(bufnr, 'ga', '<cmd>lua require("telescope.builtin").lsp_code_actions()<CR>', opts)
+
+	M.buf_set_keymap(bufnr, 'gA', '<cmd>lua require("telescope.builtin").lsp_range_code_actions()<CR>', opts)
 
 	M.buf_set_keymap(bufnr, '<leader>b', '<cmd>lua require("dap").toggle_breakpoint()<CR>', opts)
 	M.buf_set_keymap(bufnr, '<leader>B', '<cmd>lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>', opts)

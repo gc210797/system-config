@@ -5,8 +5,6 @@ return require('packer').startup(function()
 	use 'stephpy/vim-yaml'
 	use 'rust-lang/rust.vim'
 	use 'airblade/vim-rooter'
-	use {'junegunn/fzf', run = function() vim.fn['fzf#install']() end}
-	use 'junegunn/fzf.vim'
 	use {
 		'hoob3rt/lualine.nvim',
 		requires = {'kyazdani42/nvim-web-devicons', opt = true}
@@ -37,10 +35,13 @@ return require('packer').startup(function()
 	}
 	use {
 		'nvim-treesitter/nvim-treesitter',
-		run = ':TSUpdate'
+		run = ':TSUpdate',
+		before = "neorg"
 	}
 
-	use 'stevearc/dressing.nvim'
+	use 'nvim-telescope/telescope.nvim'
+	use {'nvim-telescope/telescope-ui-select.nvim' }
+
 
 	use 'jose-elias-alvarez/null-ls.nvim'
 
@@ -48,7 +49,36 @@ return require('packer').startup(function()
 	use 'theHamsta/nvim-dap-virtual-text'
 	use { 'TimUntersberger/neogit' }
 	use { 'sindrets/diffview.nvim' }
-	use { 'nvim-orgmode/orgmode', config = function()
-		require('orgmode').setup{}
-	end }
+	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+	use {
+	    "nvim-neorg/neorg",
+	    config = function()
+		require("neorg").setup {
+			load = {
+				["core.defaults"] = {},
+				["core.integrations.telescope"] = {},
+				["core.gtd.base"] = {
+					config = {
+						workspace = "ws"
+					}
+				},
+				["core.gtd.ui"] = {},
+				["core.norg.concealer"] = {},
+				["core.norg.journal"] = {},
+				["core.norg.qol.toc"] = {},
+				["core.norg.qol.todo_items"] = {},
+				["core.norg.dirman"] = {
+					config = {
+						workspaces = {
+							ws = "~/neorg"
+						},
+						autochdir = true,
+						index = "index.norg"
+					}
+				}
+			}
+		}
+	    end,
+	    requires = "nvim-neorg/neorg-telescope" -- Be sure to pull in the repo
+	}
 end)

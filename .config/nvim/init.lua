@@ -40,16 +40,14 @@ vim.opt.foldmethod='expr'
 vim.opt.foldexpr='nvim_treesitter#foldexpr()'
 vim.opt.foldlevel=20
 
---vim.g["fzf_layout"] = {down = '~20%'}
 
-vim.api.nvim_set_keymap('n', '<Leader>s', ':Rg ', {noremap = true})
-vim.api.nvim_set_keymap('n', '<Leader>;', ':Buffers<CR>', {silent = true, noremap = true})
+vim.api.nvim_set_keymap('n', '<Leader>s', '<cmd>lua require("telescope.builtin").live_grep()<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<Leader>;', '<cmd>lua require("telescope.builtin").buffers()<CR>', {silent = true, noremap = true})
 vim.api.nvim_set_keymap('n', '?', "?\\v", {noremap = true, silent = false})
 vim.api.nvim_set_keymap('n', '/', "/\\v", {noremap = true, silent = false})
 vim.api.nvim_set_keymap('n', '<leader>n', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>r', ':NvimTreeRefresh<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>f', ':Files ' .. require('commons').get_current_root(), {noremap = true, silent = false})
-vim.api.nvim_set_keymap('n', '<leader>l', ':Lines ', {noremap = true, silent = false})
+vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua require("telescope.builtin").find_files()<CR>', {noremap = true, silent = false})
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     vim.lsp.diagnostic.on_publish_diagnostics, {
@@ -60,7 +58,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 
 local dap, dapui = require("dap"), require("dapui")
 
-
+require("telescope_setup").setup()
 require("treesitter").setup()
 require("lspkind").init()
 dapui.setup()
@@ -71,9 +69,16 @@ require("ts").setup()
 require("python_setup").setup()
 require("lualine").setup{
 	options = {theme = 'gruvbox-flat'},
-	sections = {lualine_c = {"os.data('%a')", 'data', require'lsp-status'.status_progress}}
+	sections = {
+		lualine_c = {
+			{
+				'filename',
+				path=1
+			},
+			"require'lsp-status'.status()"
+		}
+	}
 }
-require("nvimorg").setup()
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()
