@@ -35,6 +35,7 @@ function M.setup()
 		},
 		indent = {
 			enable = true,
+			disbale = {"python", "yaml"}
 		},
 		rainbow = {
 			enable = true,

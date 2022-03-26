@@ -22,6 +22,12 @@ set smartcase
 set gdefault
 set number relativenumber
 set autochdir
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set autoindent
+set smartindent
 colorscheme gruvbox-flat
 augroup jdtls_lsp
 	autocmd!
