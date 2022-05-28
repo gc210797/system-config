@@ -7,7 +7,7 @@ alias cat=bat
 if status --is-interactive
   theme_gruvbox dark hard
   if ! set -q TMUX
-  	exec tmux
+  	exec tmux -u
   end
 end
 
