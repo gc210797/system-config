@@ -73,8 +73,24 @@ require("rust_setup").setup()
 require("lua_setup").setup()
 require("ts").setup()
 require("python_setup").setup()
+require("lsp-status").config({
+    current_function = false,
+    show_filename = false,
+    diagnostics = false,
+    indicator_errors = '',
+    indicator_warnings = '',
+    indicator_info = '',
+    indicator_hint = '',
+    indicator_ok = '',
+    status_symbol = ''
+})
 require("lualine").setup{
-	options = {theme = 'gruvbox-flat'},
+	options = {
+        theme = 'gruvbox_dark',
+        globalstatus = true,
+        component_separators = { left = '|', right = '|' },
+        section_separators = { left = '', right = '' }
+    },
 	sections = {
 		lualine_c = {
 			{
@@ -82,7 +98,8 @@ require("lualine").setup{
 				path=1
 			},
 			"require'lsp-status'.status()"
-		}
+		},
+        lualine_y = {}
 	}
 }
 
