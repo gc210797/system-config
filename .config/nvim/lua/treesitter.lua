@@ -20,7 +20,7 @@ parser_configs.norg_table = {
 
 function M.setup()
 	require('nvim-treesitter.configs').setup {
-		ensure_installed = "maintained",
+		ensure_installed = "all",
 		sync_install = false,
 		ignore_install = {},
 		highlight = {

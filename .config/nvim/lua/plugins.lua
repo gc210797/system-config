@@ -36,7 +36,6 @@ return require('packer').startup(function()
 	use {
 		'nvim-treesitter/nvim-treesitter',
 		run = ':TSUpdate',
-		before = "neorg"
 	}
 
 	use 'nvim-telescope/telescope.nvim'
@@ -50,35 +49,9 @@ return require('packer').startup(function()
 	use { 'TimUntersberger/neogit' }
 	use { 'sindrets/diffview.nvim' }
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-	use {
-	    "nvim-neorg/neorg",
-	    config = function()
-		require("neorg").setup {
-			load = {
-				["core.defaults"] = {},
-				["core.integrations.telescope"] = {},
-				["core.gtd.base"] = {
-					config = {
-						workspace = "ws"
-					}
-				},
-				["core.gtd.ui"] = {},
-				["core.norg.concealer"] = {},
-				["core.norg.journal"] = {},
-				["core.norg.qol.toc"] = {},
-				["core.norg.qol.todo_items"] = {},
-				["core.norg.dirman"] = {
-					config = {
-						workspaces = {
-							ws = "~/neorg"
-						},
-						autochdir = true,
-						index = "index.norg"
-					}
-				}
-			}
-		}
-	    end,
-	    requires = "nvim-neorg/neorg-telescope" -- Be sure to pull in the repo
-	}
+    use({ "iamcco/markdown-preview.nvim",
+        run = "cd app && npm install",
+        setup = function() vim.g.mkdp_filetypes = { "markdown" } end,
+        ft = { "markdown" },
+    })
 end)
