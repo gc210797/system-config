@@ -280,12 +280,12 @@ end
 
 
 function M.setup()
-	vim.g["rustfmt_autosave"] = 1
+	-- vim.g["rustfmt_autosave"] = 1
 
 
-	vim.api.nvim_command('augroup Crates')
-	vim.api.nvim_command('autocmd BufRead Cargo.toml :lua require("crates").setup()')
-	vim.api.nvim_command('augroup END')
+	-- vim.api.nvim_command('augroup Crates')
+	-- vim.api.nvim_command('autocmd BufRead Cargo.toml :lua require("crates").setup()')
+	-- vim.api.nvim_command('augroup END')
 
 
 	local on_attach = function(client, bufnr)
@@ -293,25 +293,31 @@ function M.setup()
 		require("lsp-status").on_attach(client)
 	 	commons.common_bindings(bufnr, {noremap = true, silent = false})
 
-		local events = "BufEnter,BufWinEnter,TabEnter,BufWritePost"
+		-- local events = "BufEnter,BufWinEnter,TabEnter,BufWritePost"
 
-		vim.api.nvim_command('augroup InlayHints')
-		vim.api.nvim_command('autocmd ' .. events .. ' *.rs :lua require("rust_setup").inlay_hints()')
-		vim.api.nvim_command('augroup END')
+		-- vim.api.nvim_command('augroup InlayHints')
+		-- vim.api.nvim_command('autocmd ' .. events .. ' *.rs :lua require("rust_setup").inlay_hints()')
+		-- vim.api.nvim_command('augroup END')
 
-		codelldb_setup()
+		-- codelldb_setup()
 	end
 
-	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-	capabilities = vim.tbl_extend('keep', capabilities, require("lsp-status").capabilities)
+	-- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+	-- capabilities = vim.tbl_extend('keep', capabilities, require("lsp-status").capabilities)
 
-	require('lspconfig').rust_analyzer.setup{
-		on_attach = on_attach,
-		flags = {
-			debounce_text_changes = 150,
-		},
-		capabilities = capabilities
-	}
+	-- require('lspconfig').rust_analyzer.setup{
+	-- 	on_attach = on_attach,
+	-- 	flags = {
+	-- 		debounce_text_changes = 150,
+	-- 	},
+	-- 	capabilities = capabilities
+	-- }
+
+    require("rust-tools").setup({
+        server = {
+            on_attach = on_attach
+        }
+    })
 
 
 end

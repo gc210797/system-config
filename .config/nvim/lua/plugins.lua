@@ -50,4 +50,5 @@ return require('packer').startup(function()
 	use { 'sindrets/diffview.nvim' }
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use {'iamcco/markdown-preview.nvim', config = "vim.call('mkdp#util#install')"}
+    use 'simrat39/rust-tools.nvim'
 end)
