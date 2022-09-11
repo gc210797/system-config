@@ -27,11 +27,6 @@ function M.setup()
 			hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
 			hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
 			hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-			augroup lsp_document_highlight
-				autocmd!
-				autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-				autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-			augroup end
 		]], false)
 
 	end
@@ -114,12 +109,41 @@ function M.setup()
 
 	local jar_patterns = {
 		"/dap/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
-		"/dap/vscjava.vscode-java-test-0.34.0/extension/server/*.jar"
+        "/test/vscode-java-test/java-extension/com.microsoft.java.test.plugin/target/*.jar",
+        "/test/vscode-java-test/java-extension/com.microsoft.java.test.runner/target/*.jar",
+        "/test/vscode-java-test/java-extension/com.microsoft.java.test.runner/lib/*.jar"
 	}
+
+    local plugin_path = "/test/vscode-java-test/java-extension/com.microsoft.java.test.plugin.site/target/repository/plugins/"
+
+    local bundle_list = vim.tbl_map(
+        function(x) return require('jdtls.path').join(plugin_path, x) end,
+        {
+           'org.eclipse.jdt.junit4.runtime_*.jar',
+           'org.eclipse.jdt.junit5.runtime_*.jar',
+           'org.junit.jupiter.api*.jar',
+           'org.junit.jupiter.engine*.jar',
+           'org.junit.jupiter.migrationsupport*.jar',
+           'org.junit.jupiter.params*.jar',
+           'org.junit.vintage.engine*.jar',
+           'org.opentest4j*.jar',
+           'org.junit.platform.commons*.jar',
+           'org.junit.platform.engine*.jar',
+           'org.junit.platform.launcher*.jar',
+           'org.junit.platform.runner*.jar',
+           'org.junit.platform.suite.api*.jar',
+           'org.apiguardian*.jar'
+        }
+    )
+
+    vim.list_extend(jar_patterns, bundle_list)
 
 	for _, jar_pattern in ipairs(jar_patterns) do
 		for _, bundle in ipairs(vim.split(vim.fn.glob(home .. jar_pattern), '\n')) do
-			table.insert(bundles, bundle)
+            if not vim.endswith(bundle, "com.microsoft.java.test.runner-jar-with-dependencies.jar")
+               and not vim.endswith(bundle, "com.microsoft.java.test.runner.jar") then
+			   table.insert(bundles, bundle)
+            end
 		end
 	end
 
@@ -130,6 +154,39 @@ function M.setup()
 		extendedClientCapabilities = extendedClientCapabilities,
 		bundles = bundles
 	}
+
+    local finders = require("telescope.finders")
+    local sorters = require("telescope.sorters")
+    local actions = require("telescope.actions")
+    local pickers = require("telescope.pickers")
+
+    require("jdtls.ui").pick_one_async = function(items, prompt, label_fn, cb)
+        local opts = {}
+        pickers.new(opts, {
+            prompt_title = prompt,
+            finder = finders.new_table {
+                results = items,
+                entry_maker = function(entry)
+                    return {
+                        value = entry,
+                        display = label_fn(entry),
+                        ordinal = label_fn(entry)
+                    }
+                end,
+            },
+            sorter = sorters.get_generic_fuzzy_sorter(),
+            attach_mappings = function(prompt_bufnr)
+                actions.goto_file_selection_edit:replace(function()
+                    local selection = actions.get_selected_entry(prompt_bufnr)
+                    actions.close(prompt_bufnr)
+
+                    cb(selection.value)
+                end)
+
+                return true
+            end
+        })
+    end
 
 	require('jdtls').start_or_attach(config)
 end
