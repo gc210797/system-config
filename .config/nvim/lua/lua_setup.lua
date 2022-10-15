@@ -34,7 +34,7 @@ function M.setup()
 	table.insert(runtime_path, "lua/?.lua")
 	table.insert(runtime_path, "lua/?/init.lua")
 
-	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+	local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 	capabilities = vim.tbl_extend('keep', capabilities, require("lsp-status").capabilities)
 
 	require("lspconfig").sumneko_lua.setup {
