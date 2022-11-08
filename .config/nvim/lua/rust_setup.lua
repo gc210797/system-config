@@ -280,7 +280,7 @@ end
 
 
 function M.setup()
-	-- vim.g["rustfmt_autosave"] = 1
+	vim.g["rustfmt_autosave"] = 1
 
 
 	-- vim.api.nvim_command('augroup Crates')

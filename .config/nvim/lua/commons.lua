@@ -25,9 +25,9 @@ function M.common_bindings(bufnr, opts)
 
 	M.buf_set_keymap(bufnr, 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 	M.buf_set_keymap(bufnr, 'rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-	M.buf_set_keymap(bufnr, 'ga', '<cmd>lua require("telescope.builtin").lsp_code_actions()<CR>', opts)
+	M.buf_set_keymap(bufnr, 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
-	M.buf_set_keymap(bufnr, 'gA', '<cmd>lua require("telescope.builtin").lsp_range_code_actions()<CR>', opts)
+	M.buf_set_keymap(bufnr, 'gA', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
 
 	M.buf_set_keymap(bufnr, '<leader>b', '<cmd>lua require("dap").toggle_breakpoint()<CR>', opts)
 	M.buf_set_keymap(bufnr, '<leader>B', '<cmd>lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>', opts)
