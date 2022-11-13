@@ -313,9 +313,16 @@ function M.setup()
 	-- 	capabilities = capabilities
 	-- }
 
+    local extension_path = vim.env.HOME .. '/dap/codelldb-x86_64-linux/extension/'
+    local codelldb_path = extension_path .. 'adapter/codelldb'
+    local lidlldb_path = extension_path .. 'lldb/lib/liblldb.so'
+
     require("rust-tools").setup({
         server = {
             on_attach = on_attach
+        },
+        dap = {
+            adapter = require('rust-tools.dap').get_codelldb_adapter(codelldb_path, lidlldb_path)
         }
     })
 
