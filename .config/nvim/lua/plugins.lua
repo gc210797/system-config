@@ -7,12 +7,10 @@ return require('packer').startup(function()
 	use 'airblade/vim-rooter'
 	use {
 		'hoob3rt/lualine.nvim',
-		requires = {'kyazdani42/nvim-web-devicons', opt = true}
+		requires = {'kyazdani42/nvim-web-devicons'}
 	}
-	use {
-		'kyazdani42/nvim-tree.lua',
-		config = function() require('nvim-tree').setup{} end
-	}
+    use "nvim-telescope/telescope-file-browser.nvim"
+
 	use 'neovim/nvim-lspconfig'
 	use 'mfussenegger/nvim-dap'
 	use 'mfussenegger/nvim-jdtls'

@@ -3,7 +3,7 @@ local M = {}
 function M.setup()
 	local on_attach = function(_, buffer)
 		require('jdtls.setup').add_commands()
-		require('lsp-status').register_progress()
+		-- require('lsp-status').register_progress()
 		require('jdtls').setup_dap({ hotcodereplace = 'auto' })
 
 		local opts = {noremap = true, silent = false}
@@ -35,8 +35,8 @@ function M.setup()
 	local root_dir = require('jdtls.setup').find_root(root_markers)
 	local home = os.getenv('HOME')
 
-	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-	capabilities = vim.tbl_extend('keep', capabilities, require("lsp-status").capabilities)
+	local capabilities = require('cmp_nvim_lsp').default_capabilities()
+	-- capabilities = vim.tbl_extend('keep', capabilities, require("lsp-status").capabilities)
 
 	local workspace_folder = home .. '/.workspace/' .. vim.fn.fnamemodify(root_dir, ':p:h:t')
 	local config = {

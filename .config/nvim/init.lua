@@ -1,7 +1,3 @@
---vim.cmd([[
---set shell=/bin/bash
---]]
---)
 vim.g.mapleader = ' '
 
 require('plugins')
@@ -9,8 +5,6 @@ require('plugins')
 vim.opt.background = 'dark'
 vim.opt.clipboard:append {"unnamedplus"}
 vim.g.gruvbox_flat_style = "hard"
-vim.g.nvim_tree_group_empty = 1
-vim.g.nvim_tree_highlight_opened_files = 1
 vim.cmd([[
 filetype plugin indent on
 hi Pmenu ctermbg=black ctermfg=white
@@ -51,8 +45,7 @@ vim.api.nvim_set_keymap('n', '<Leader>s', '<cmd>lua require("telescope.builtin")
 vim.api.nvim_set_keymap('n', '<Leader>;', '<cmd>lua require("telescope.builtin").buffers()<CR>', {silent = true, noremap = true})
 vim.api.nvim_set_keymap('n', '?', "?\\v", {noremap = true, silent = false})
 vim.api.nvim_set_keymap('n', '/', "/\\v", {noremap = true, silent = false})
-vim.api.nvim_set_keymap('n', '<leader>n', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>r', ':NvimTreeRefresh<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>n', ':Telescope file_browser<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua require("telescope.builtin").find_files()<CR>', {noremap = true, silent = false})
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -67,7 +60,25 @@ local dap, dapui = require("dap"), require("dapui")
 require("telescope_setup").setup()
 require("treesitter").setup()
 require("lspkind").init()
-dapui.setup()
+dapui.setup({
+    icons = {
+        expanded = "",
+        collapsed = "",
+        current_frame = "",
+    },
+    controls = {
+        icons = {
+            pause = "",
+            play = "",
+            step_into = "",
+            step_over = "",
+            step_out = "",
+            step_back = "倫",
+            run_last = "ﰇ",
+            terminate = ""
+        }
+    }
+})
 require("cmp_setup").setup()
 require("rust_setup").setup()
 require("lua_setup").setup()
