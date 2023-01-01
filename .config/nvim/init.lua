@@ -1,5 +1,8 @@
 vim.g.mapleader = ' '
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 require('plugins')
 
 vim.opt.background = 'dark'
@@ -45,7 +48,7 @@ vim.api.nvim_set_keymap('n', '<Leader>s', '<cmd>lua require("telescope.builtin")
 vim.api.nvim_set_keymap('n', '<Leader>;', '<cmd>lua require("telescope.builtin").buffers()<CR>', {silent = true, noremap = true})
 vim.api.nvim_set_keymap('n', '?', "?\\v", {noremap = true, silent = false})
 vim.api.nvim_set_keymap('n', '/', "/\\v", {noremap = true, silent = false})
-vim.api.nvim_set_keymap('n', '<leader>n', ':Telescope file_browser<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>n', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua require("telescope.builtin").find_files()<CR>', {noremap = true, silent = false})
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
@@ -113,6 +116,15 @@ require("lualine").setup{
         lualine_y = {}
 	}
 }
+
+require('nvim-tree').setup({
+    renderer = {
+        group_empty = true
+    },
+    view = {
+        adaptive_size = true
+    }
+})
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()

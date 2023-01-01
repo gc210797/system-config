@@ -27,21 +27,11 @@ function M.setup()
 				override_file_sorter = true,
 				case_mod = "smart_case"
 			},
-            file_browser = {
-                hijack_netrw = true,
-                grouped = true,
-                collapse_dirs = true,
-                depth = false,
-                auto_depth = true,
-                hide_parent_dir = true,
-                dir_icon = ""
-            }
 		}
 	}
 
 	require('telescope').load_extension('fzf')
     require('telescope').load_extension('ui-select')
-    require('telescope').load_extension('file_browser')
 end
 
 return M

@@ -9,8 +9,12 @@ return require('packer').startup(function()
 		'hoob3rt/lualine.nvim',
 		requires = {'kyazdani42/nvim-web-devicons'}
 	}
-    use "nvim-telescope/telescope-file-browser.nvim"
-
+    use {
+        'nvim-tree/nvim-tree.lua',
+        requires = {
+            'nvim-tree/nvim-web-devicons'
+        }
+    }
 	use 'neovim/nvim-lspconfig'
 	use 'mfussenegger/nvim-dap'
 	use 'mfussenegger/nvim-jdtls'
