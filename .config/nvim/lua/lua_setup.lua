@@ -37,7 +37,7 @@ function M.setup()
 	local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 	capabilities = vim.tbl_extend('keep', capabilities, require("lsp-status").capabilities)
 
-	require("lspconfig").sumneko_lua.setup {
+	require("lspconfig").lua_ls.setup {
 		cmd = {sumneko_binary, "-E", sumneko_path .. "/main.lua"},
 		on_attach = on_attach,
 		settings = {

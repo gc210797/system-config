@@ -20,3 +20,5 @@
      1. fisher install jomik/fish-gruvbox
 13. exa, fzf, bat, ripgrep, neovim
 14. Alacritty
+15. sway
+16. mako wofi waybar thunar pavucontrol wifi4wofi https://github.com/Fausto-Korpsvart/Gruvbox-GTK-Theme i3lock swaylock-fancy
