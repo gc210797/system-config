@@ -4,6 +4,7 @@
 #
 # Read `man 5 sway` for a complete reference.
 
+
 set $bg 	#6e2e04
 set $bg-inactive   #323232
 set $bg-urgent     #000000
@@ -245,5 +246,11 @@ bar {
     }
 }
 
-# include /etc/sway/config.d/*
+for_window [title="Firefox — Sharing Indicator"] {
+    floating enable;
+    move position 0 0;
+    resize set 50 50;
+}
+
+include /etc/sway/config.d/*
 include ~/.config/sway/config.d/*

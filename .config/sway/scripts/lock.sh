@@ -7,7 +7,7 @@ swayidle -w \
 
 
 # Lock screen immediately
-swaylock-fancy
+pgrep swaylock || swaylock-fancy
 
 
 # Kill the last instance of swayidle so the timer doesn't keep running in background

@@ -1,10 +1,12 @@
 exec swayidle -w \
-          timeout 240 '$HOME/.config/sway/scripts/lock.sh' \
+          timeout 240 'pgrep swaylock || swaylock-fancy' \
+          timeout 250 'swaymsg "output * dpms off"' \
           timeout 300 'systemctl suspend' \
-          before-sleep '$HOME/.config/sway/scripts/lock.sh'
+          resume 'swaymsg "output * dpms on"' \
+          before-sleep 'pgrep swaylock || swaylock-fancy'
 
 
 ### Manual Lock
-bindsym --release $mod+Control+s exec '$HOME/.config/sway/scripts/lock.sh'
+bindsym --release $mod+Control+s exec 'pgrep swaylock || swaylock-fancy'
 
-bindswitch --reload --locked lid:off exec '$HOME/.config/sway/scripts/lock.sh' 
+bindswitch --reload --locked lid:off exec '(pgrep swaylock || swaylock-fancy) && systemctl suspend' 
