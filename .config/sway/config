@@ -227,6 +227,9 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+#Screenshot
+bindsym Print exec slurp | grim -g - - | wl-copy
+
 
 #
 # Status Bar:
