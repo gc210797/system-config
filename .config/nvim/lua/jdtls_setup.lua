@@ -5,6 +5,8 @@ function M.setup()
 		require('jdtls.setup').add_commands()
 		-- require('lsp-status').register_progress()
 		require('jdtls').setup_dap({ hotcodereplace = 'auto' })
+        -- Allow stopping on mutliple threads
+        require('dap').defaults.fallback.auto_continue_if_many_stopped = false
 
 		local opts = {noremap = true, silent = false}
 		local commons = require("commons")
@@ -16,6 +18,7 @@ function M.setup()
 		commons.buf_set_keymap(buffer, '<leader>dc', "<cmd>lua require('jdtls').test_class()<CR>", opts)
 		commons.buf_set_keymap(buffer, '<leader>dm', "<cmd>lua require('jdtls').test_nearest_method()<CR>", opts)
 		commons.buf_set_keymap(buffer, '<leader>de', "<cmd>lua require('jdtls').extract_variable()<CR>", opts)
+        commons.buf_set_keymap(buffer, '<leader>dt', "<cmd>lua local w = require('dap.ui.widgets'); w.centered_float(w.threads)<CR>", opts)
 
 		vim.api.nvim_exec([[
 			augroup FormatJavaAuGroup
