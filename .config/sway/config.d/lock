@@ -1,12 +1,11 @@
 exec swayidle -w \
-          timeout 240 'pgrep swaylock || swaylock-fancy' \
+          timeout 240 'pgrep swaylock && pkill swaylock && swaylock -c "#1d2021" || swaylock -c "#1d2021"' \
           timeout 250 'swaymsg "output * dpms off"' \
           timeout 300 'systemctl suspend' \
           resume 'swaymsg "output * dpms on"' \
-          before-sleep 'pgrep swaylock || swaylock-fancy'
+          before-sleep 'pgrep swaylock && pkill swaylock && swaylock -c "#1d2021" || swaylock -c "#1d2021"'
 
 
 ### Manual Lock
-bindsym --release $mod+Control+s exec 'pgrep swaylock || swaylock-fancy'
+bindsym --release $mod+Control+s exec 'pgrep swaylock && pkill swaylock && swaylock -c "#1d2021" || swaylock -c "#1d2021"'
 
-bindswitch --reload --locked lid:off exec '(pgrep swaylock || swaylock-fancy) && systemctl suspend' 

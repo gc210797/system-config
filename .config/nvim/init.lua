@@ -26,10 +26,10 @@ set expandtab
 set autoindent
 set smartindent
 colorscheme gruvbox-flat
-augroup jdtls_lsp
-	autocmd!
-	autocmd FileType java lua require('jdtls_setup').setup()
-augroup end
+" augroup jdtls_lsp
+" 	autocmd!
+" 	autocmd FileType java lua require('jdtls_setup').setup()
+" augroup end
 
 ]])
 
@@ -117,15 +117,6 @@ require("lualine").setup{
 	}
 }
 
-require('nvim-tree').setup({
-    renderer = {
-        group_empty = true
-    },
-    view = {
-        adaptive_size = true
-    }
-})
-
 dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()
 end
@@ -141,3 +132,5 @@ end
 require('nvim-dap-virtual-text').setup {
 	commented = true
 }
+
+require("projects").setup()

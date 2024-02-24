@@ -2,9 +2,8 @@ local M = {}
 
 function M.setup()
 	local on_attach = function(_, buffer)
-		require('jdtls.setup').add_commands()
 		-- require('lsp-status').register_progress()
-		require('jdtls').setup_dap({ hotcodereplace = 'auto' })
+		-- require('jdtls').setup_dap({ hotcodereplace = 'auto' })
         -- Allow stopping on mutliple threads
         require('dap').defaults.fallback.auto_continue_if_many_stopped = false
 
@@ -23,9 +22,9 @@ function M.setup()
 		vim.api.nvim_exec([[
 			augroup FormatJavaAuGroup
 				autocmd!
-				autocmd BufWritePost *.java lua vim.lsp.buf.formatting()
-				autocmd BufWritePost *.java lua require('jdtls.dap').setup_dap_main_class_configs()
-				autocmd BufWritePost *.java JdtUpdateConfig
+				autocmd BufWritePost *.java lua vim.lsp.buf.format()
+				" autocmd BufWritePost *.java lua require('jdtls.dap').setup_dap_main_class_configs()
+				" autocmd BufWritePost *.java JdtUpdateConfig
 			augroup end
 			hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
 			hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
@@ -82,7 +81,11 @@ function M.setup()
 					{
 						name = "JavaSE-11",
 						path = "/etc/alternatives/java_sdk_11/"
-					}
+					},
+                    {
+                        name = "JavaSE-17",
+                        path = "/etc/alternatives/java_sdk_17/"
+                    }
 				}
 			}
 		},

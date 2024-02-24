@@ -53,4 +53,11 @@ return require('packer').startup(function()
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use {'iamcco/markdown-preview.nvim', config = "vim.call('mkdp#util#install')"}
     use 'simrat39/rust-tools.nvim'
+    use 'folke/zen-mode.nvim'
+    use {
+        'coffebar/neovim-project',
+        requires = {
+            { "Shatur/neovim-session-manager" },
+        }
+    }
 end)

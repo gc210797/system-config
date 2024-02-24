@@ -1,4 +1,3 @@
-alias ls=exa
 alias grep=rg
 alias vi=nvim
 alias vim=nvim
