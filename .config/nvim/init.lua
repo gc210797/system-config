@@ -5,12 +5,15 @@ vim.g.loaded_netrwPlugin = 1
 
 require('plugins')
 
+
 vim.opt.background = 'dark'
+require("gruvbox").setup({
+    contrast = "hard",
+    terminal_colors = true, -- add neovim terminal colors
+})
 vim.opt.clipboard:append {"unnamedplus"}
-vim.g.gruvbox_flat_style = "hard"
 vim.cmd([[
 filetype plugin indent on
-hi Pmenu ctermbg=black ctermfg=white
 set splitright
 set splitbelow
 set incsearch
@@ -25,7 +28,7 @@ set shiftwidth=4
 set expandtab
 set autoindent
 set smartindent
-colorscheme gruvbox-flat
+colorscheme gruvbox
 " augroup jdtls_lsp
 " 	autocmd!
 " 	autocmd FileType java lua require('jdtls_setup').setup()
@@ -121,16 +124,20 @@ dap.listeners.after.event_initialized["dapui_config"] = function()
 	dapui.open()
 end
 
-dap.listeners.after.event_terminated["dapui_config"] = function()
-	dapui.close()
-end
+-- dap.listeners.after.event_terminated["dapui_config"] = function()
+-- 	dapui.close()
+-- end
 
-dap.listeners.after.event_exited["dapui_config"] = function()
-	dapui.close()
-end
+-- dap.listeners.after.event_exited["dapui_config"] = function()
+-- 	dapui.close()
+-- end
 
 require('nvim-dap-virtual-text').setup {
 	commented = true
 }
 
 require("projects").setup()
+
+require("scala_setup").setup()
+
+require("fidget").setup({})

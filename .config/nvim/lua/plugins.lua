@@ -1,6 +1,6 @@
 return require('packer').startup(function()
 	use 'wbthomason/packer.nvim'
-	use 'eddyekofo94/gruvbox-flat.nvim'
+	use 'ellisonleao/gruvbox.nvim'
 	use 'cespare/vim-toml'
 	use 'stephpy/vim-yaml'
 	use 'rust-lang/rust.vim'
@@ -22,7 +22,7 @@ return require('packer').startup(function()
 	use 'mhartington/formatter.nvim'
 	use 'nvim-lua/plenary.nvim'
 
-	use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+	use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap", "nvim-neotest/nvim-nio"} }
 
 	use "onsails/lspkind-nvim"
 	use "hrsh7th/nvim-cmp"
@@ -43,7 +43,6 @@ return require('packer').startup(function()
 	use 'nvim-telescope/telescope.nvim'
 	use {'nvim-telescope/telescope-ui-select.nvim' }
 
-
 	use 'jose-elias-alvarez/null-ls.nvim'
 
 	use 'mfussenegger/nvim-dap-python'
@@ -58,6 +57,12 @@ return require('packer').startup(function()
         'coffebar/neovim-project',
         requires = {
             { "Shatur/neovim-session-manager" },
+        }
+    }
+    use {
+        "scalameta/nvim-metals",
+        requires = {
+            {"j-hui/fidget.nvim"}
         }
     }
 end)

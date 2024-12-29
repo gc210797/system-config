@@ -1,7 +1,8 @@
 local M = {}
 
 function M.setup()
-	local on_attach = function(_, buffer)
+	local on_attach = function(client, buffer)
+        client.server_capabilities.semanticTokensProvider = nil
 		-- require('lsp-status').register_progress()
 		-- require('jdtls').setup_dap({ hotcodereplace = 'auto' })
         -- Allow stopping on mutliple threads
@@ -102,7 +103,7 @@ function M.setup()
 		'--add-modules=ALL-SYSTEM',
 		'--add-opens', 'java.base/java.util=ALL-UNNAMED',
 		'--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-		'-jar', home .. '/lsp/jdt-language-server-latest/plugins/org.eclipse.equinox.launcher_1.6.400.v20210924-0641.jar',
+		'-jar', home .. '/lsp/jdt-language-server-latest/plugins/org.eclipse.equinox.launcher_1.6.800.v20240304-1850.jar',
 		'-configuration', home .. '/lsp/jdt-language-server-latest/config_linux/',
 		'-data', workspace_folder
 	}
@@ -115,41 +116,36 @@ function M.setup()
 
 	local jar_patterns = {
 		"/dap/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
-        "/test/vscode-java-test/java-extension/com.microsoft.java.test.plugin/target/*.jar",
-        "/test/vscode-java-test/java-extension/com.microsoft.java.test.runner/target/*.jar",
-        "/test/vscode-java-test/java-extension/com.microsoft.java.test.runner/lib/*.jar"
+        "/test/vscode-java-test/extension/server/*.jar",
 	}
 
-    local plugin_path = "/test/vscode-java-test/java-extension/com.microsoft.java.test.plugin.site/target/repository/plugins/"
 
-    local bundle_list = vim.tbl_map(
-        function(x) return require('jdtls.path').join(plugin_path, x) end,
-        {
-           'org.eclipse.jdt.junit4.runtime_*.jar',
-           'org.eclipse.jdt.junit5.runtime_*.jar',
-           'org.junit.jupiter.api*.jar',
-           'org.junit.jupiter.engine*.jar',
-           'org.junit.jupiter.migrationsupport*.jar',
-           'org.junit.jupiter.params*.jar',
-           'org.junit.vintage.engine*.jar',
-           'org.opentest4j*.jar',
-           'org.junit.platform.commons*.jar',
-           'org.junit.platform.engine*.jar',
-           'org.junit.platform.launcher*.jar',
-           'org.junit.platform.runner*.jar',
-           'org.junit.platform.suite.api*.jar',
-           'org.apiguardian*.jar'
-        }
-    )
+   --  local bundle_list = vim.tbl_map(
+   --      function(x) return require('jdtls.path').join(plugin_path, x) end,
+   --      {
+   --         'org.eclipse.jdt.junit4.runtime_*.jar',
+   --         'org.eclipse.jdt.junit5.runtime_*.jar',
+   --         'org.junit.jupiter.api*.jar',
+   --         'org.junit.jupiter.engine*.jar',
+   --         'org.junit.jupiter.migrationsupport*.jar',
+   --         'org.junit.jupiter.params*.jar',
+   --         'org.junit.vintage.engine*.jar',
+   --         'org.opentest4j*.jar',
+   --         'org.junit.platform.commons*.jar',
+   --         'org.junit.platform.engine*.jar',
+   --         'org.junit.platform.launcher*.jar',
+   --         'org.junit.platform.runner*.jar',
+   --         'org.junit.platform.suite.api*.jar',
+   --         'org.apiguardian*.jar'
+   --      }
+   --  )
 
-    vim.list_extend(jar_patterns, bundle_list)
+   --  vim.list_extend(jar_patterns, bundle_list)
 
 	for _, jar_pattern in ipairs(jar_patterns) do
 		for _, bundle in ipairs(vim.split(vim.fn.glob(home .. jar_pattern), '\n')) do
-            if not vim.endswith(bundle, "com.microsoft.java.test.runner-jar-with-dependencies.jar")
-               and not vim.endswith(bundle, "com.microsoft.java.test.runner.jar") then
-			   table.insert(bundles, bundle)
-            end
+            -- vim.notify(bundle, vim.log.levels.WARN)
+		   table.insert(bundles, bundle)
 		end
 	end
 
